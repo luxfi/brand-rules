@@ -1,0 +1,85 @@
+# Brand sovereignty rule — parsdao/* repos
+#
+# Pars is the DAO/governance L1. Pars repos must not carry the brand
+# identity of Liquidity (downstream tenant) or sibling orgs (Lux, Hanzo,
+# Zoo). Chain identifiers and OSS dep imports are allowed via exempt_paths
+# / exempt_patterns.
+#
+# Policy: PIP-0006.
+
+org: pars
+
+forbidden_in_source:
+  - "Liquidity.io"
+  - "Liquidity LLC"
+  - "@liquidityio/"
+  - "Lux Industries"
+  - "Hanzo AI Inc."
+  - "Zoo Labs Foundation"
+
+exempt_paths:
+  - "**/go.mod"
+  - "**/go.sum"
+  - "**/package.json"
+  - "**/package-lock.json"
+  - "**/yarn.lock"
+  - "**/pnpm-lock.yaml"
+  - "**/bun.lock"
+  - "**/bun.lockb"
+  - "**/Cargo.toml"
+  - "**/Cargo.lock"
+  - "**/pyproject.toml"
+  - "**/uv.lock"
+  - "**/requirements*.txt"
+  - "**/Dockerfile"
+  - "**/Dockerfile.*"
+  - "**/*.Dockerfile"
+  - "**/compose.yml"
+  - "**/compose.*.yml"
+  - "**/*.k8s.yaml"
+  - "**/*.k8s.yml"
+  - "**/kustomization.yaml"
+  - "**/kustomization.yml"
+  - "**/.github/**"
+  - "**/CHANGELOG.md"
+  - "**/CHANGELOG"
+  - "**/LICENSE"
+  - "**/LICENSE.*"
+  - "**/NOTICE"
+  - "**/NOTICE.*"
+  - "**/THIRD_PARTY*"
+  - "**/vendor/**"
+  - "**/node_modules/**"
+  - "**/BRAND-AUDIT*"
+  - "**/BRAND_AUDIT*"
+  - "**/brand-audit*"
+  - "**/brand-sovereignty*"
+  - "**/.env.example*"
+  - "**/.env.sample*"
+  - "**/config/brands/**"
+  - "**/configs/brands/**"
+  - "**/brands/**/*.json"
+  - "**/brands/**/*.yaml"
+  - "**/brands/**/*.yml"
+  - "**/brand*.test.ts"
+  - "**/brand*.test.tsx"
+  - "**/brand*.test.js"
+  - "**/brand*.spec.ts"
+  - "**/brand*.spec.tsx"
+  - "**/brand*.spec.js"
+  - "**/*brand*.test.ts"
+  - "**/*brand*.test.tsx"
+  - "**/whitelabel*.test.*"
+  - "**/white-label*.test.*"
+  - "**/tenant*.test.*"
+  - "**/*_brand_test.go"
+  - "**/*_whitelabel_test.go"
+
+exempt_patterns:
+  - 'github\.com/luxfi/'
+  - 'github\.com/hanzoai/'
+  - 'github\.com/zooai/'
+  - 'github\.com/parsdao/'
+  - 'github\.com/liquidityio/'
+  - 'ghcr\.io/'
+  - 'us-docker\.pkg\.dev/'

@@ -1,0 +1,96 @@
+# Brand sovereignty rule — luxfi/* repos
+#
+# Lux is the global, jurisdiction-neutral OSS platform. Lux repos must not
+# carry the brand identity of any downstream tenant (Liquidity), nor of
+# sibling orgs (Hanzo, Zoo, Pars). Chain identifiers and OSS dep imports
+# are allowed via exempt_paths / exempt_patterns.
+#
+# Policy: LP-0010.
+
+org: lux
+
+forbidden_in_source:
+  - "Liquidity.io"
+  - "Liquidity LLC"
+  - "@liquidityio/"
+  - "Hanzo AI Inc."
+  - "Zoo Labs Foundation"
+  - "Pars Network Foundation"
+
+# Globs of files where a forbidden string is permitted because the file
+# represents tooling, not brand identity. fnmatch syntax (glob).
+exempt_paths:
+  - "**/go.mod"
+  - "**/go.sum"
+  - "**/package.json"
+  - "**/package-lock.json"
+  - "**/yarn.lock"
+  - "**/pnpm-lock.yaml"
+  - "**/bun.lock"
+  - "**/bun.lockb"
+  - "**/Cargo.toml"
+  - "**/Cargo.lock"
+  - "**/pyproject.toml"
+  - "**/uv.lock"
+  - "**/requirements*.txt"
+  - "**/Dockerfile"
+  - "**/Dockerfile.*"
+  - "**/*.Dockerfile"
+  - "**/compose.yml"
+  - "**/compose.*.yml"
+  - "**/*.k8s.yaml"
+  - "**/*.k8s.yml"
+  - "**/kustomization.yaml"
+  - "**/kustomization.yml"
+  - "**/.github/**"
+  - "**/CHANGELOG.md"
+  - "**/CHANGELOG"
+  - "**/LICENSE"
+  - "**/LICENSE.*"
+  - "**/NOTICE"
+  - "**/NOTICE.*"
+  - "**/THIRD_PARTY*"
+  - "**/vendor/**"
+  - "**/node_modules/**"
+  # Multi-brand surfaces (not "this repo's brand", but white-label
+  # mechanism that legitimately carries other brands as data):
+  - "**/BRAND-AUDIT*"            # this rule's own audit log
+  - "**/BRAND_AUDIT*"
+  - "**/brand-audit*"
+  - "**/brand-sovereignty*"
+  - "**/.env.example*"           # per-tenant deploy templates
+  - "**/.env.sample*"
+  - "**/config/brands/**"        # per-brand config fixtures
+  - "**/configs/brands/**"
+  - "**/brands/**/*.json"
+  - "**/brands/**/*.yaml"
+  - "**/brands/**/*.yml"
+  # Tests of the multi-tenant brand/white-label loader — by name
+  # convention, any test whose basename contains `brand`, `whitelabel`,
+  # `white-label`, or `tenant` exercises the cross-brand mechanism and
+  # legitimately fixtures other brands. Tests that don't match this
+  # convention still get checked.
+  - "**/brand*.test.ts"
+  - "**/brand*.test.tsx"
+  - "**/brand*.test.js"
+  - "**/brand*.spec.ts"
+  - "**/brand*.spec.tsx"
+  - "**/brand*.spec.js"
+  - "**/*brand*.test.ts"
+  - "**/*brand*.test.tsx"
+  - "**/whitelabel*.test.*"
+  - "**/white-label*.test.*"
+  - "**/tenant*.test.*"
+  - "**/*_brand_test.go"
+  - "**/*_whitelabel_test.go"
+
+# Line-level regex exemptions: if any line containing a forbidden string
+# also matches one of these, the line is ignored.
+exempt_patterns:
+  - 'github\.com/luxfi/'
+  - 'github\.com/hanzoai/'
+  - 'github\.com/zooai/'
+  - 'github\.com/parsdao/'
+  - 'github\.com/liquidityio/'
+  - 'ghcr\.io/'
+  - 'us-docker\.pkg\.dev/'
