@@ -1,0 +1,42 @@
+{
+  "name": "@luxfi/brand-rules",
+  "version": "0.1.0",
+  "description": "Per-org brand sovereignty banlists for LP-0010 / HIP-0303 / ZIP-0031 (no-crossover) enforcement. Used by CI lint + local pre-push validator.",
+  "license": "BSD-3-Clause",
+  "homepage": "https://github.com/luxfi/brand-rules",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luxfi/brand-rules.git"
+  },
+  "bugs": "https://github.com/luxfi/brand-rules/issues",
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./cli": "./src/cli.js",
+    "./rules/*": "./rules/*.yml"
+  },
+  "bin": {
+    "brand-check": "./src/cli.js"
+  },
+  "files": [
+    "src",
+    "rules",
+    "scripts",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "lint": "node --check src/index.js && node --check src/cli.js"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,119 @@
+# Brand sovereignty rule — liquidityio/* repos
+#
+# Liquidity is the US-jurisdiction ATS/BD/TA white-label app built on the
+# Lux OSS platform. Liquidity surfaces (UI, docs, code comments, log lines,
+# brand strings) must never mention upstream org brands. The platform's
+# OSS dependencies are imported via Go modules, npm packages and container
+# images that legitimately keep their upstream `luxfi/` / `hanzoai/` /
+# `zooai/` namespace — those references are tooling, not brand.
+#
+# Policy: LIP-0006 (consumer of LP-0010 §7).
+
+org: liquidity
+
+forbidden_in_source:
+  - "Lux Industries"
+  - "Hanzo AI Inc."
+  - "Zoo Labs Foundation"
+  - "Pars Network Foundation"
+  # npm-org scopes used as brand identity. Line-level exempt_patterns
+  # below whitelists actual import / require statements pointing at
+  # OSS packages.
+  - "@luxfi/"
+  - "@hanzoai/"
+  - "@hanzo/"
+  - "@zooai/"
+  - "@parsdao/"
+  # Lowercase brand tokens. exempt_patterns whitelists Go module imports
+  # and container image refs so `github.com/luxfi/hsm` etc. survive.
+  - "luxfi"
+  - "Lux Network"
+  - "Hanzo AI"
+  - "Zoo Labs"
+  - "Pars Network"
+
+exempt_paths:
+  - "**/go.mod"
+  - "**/go.sum"
+  - "**/package.json"
+  - "**/package-lock.json"
+  - "**/yarn.lock"
+  - "**/pnpm-lock.yaml"
+  - "**/bun.lock"
+  - "**/bun.lockb"
+  - "**/Cargo.toml"
+  - "**/Cargo.lock"
+  - "**/pyproject.toml"
+  - "**/uv.lock"
+  - "**/requirements*.txt"
+  - "**/Dockerfile"
+  - "**/Dockerfile.*"
+  - "**/*.Dockerfile"
+  - "**/compose.yml"
+  - "**/compose.*.yml"
+  - "**/*.k8s.yaml"
+  - "**/*.k8s.yml"
+  - "**/kustomization.yaml"
+  - "**/kustomization.yml"
+  - "**/.github/**"
+  - "**/CHANGELOG.md"
+  - "**/CHANGELOG"
+  - "**/LICENSE"
+  - "**/LICENSE.*"
+  - "**/NOTICE"
+  - "**/NOTICE.*"
+  - "**/THIRD_PARTY*"
+  - "**/vendor/**"
+  - "**/node_modules/**"
+  - "**/BRAND-AUDIT*"
+  - "**/BRAND_AUDIT*"
+  - "**/brand-audit*"
+  - "**/brand-sovereignty*"
+  - "**/.env.example*"
+  - "**/.env.sample*"
+  - "**/config/brands/**"
+  - "**/configs/brands/**"
+  - "**/brands/**/*.json"
+  - "**/brands/**/*.yaml"
+  - "**/brands/**/*.yml"
+  - "**/brand*.test.ts"
+  - "**/brand*.test.tsx"
+  - "**/brand*.test.js"
+  - "**/brand*.spec.ts"
+  - "**/brand*.spec.tsx"
+  - "**/brand*.spec.js"
+  - "**/*brand*.test.ts"
+  - "**/*brand*.test.tsx"
+  - "**/whitelabel*.test.*"
+  - "**/white-label*.test.*"
+  - "**/tenant*.test.*"
+  - "**/*_brand_test.go"
+  - "**/*_whitelabel_test.go"
+
+# Whitelist legitimate cross-org tooling references on a per-line basis.
+# Order matters only for human review — all patterns are OR-ed.
+exempt_patterns:
+  # Go module imports / package paths
+  - 'github\.com/luxfi/'
+  - 'github\.com/hanzoai/'
+  - 'github\.com/hanzo-?ai/'
+  - 'github\.com/zooai/'
+  - 'github\.com/zoo-labs/'
+  - 'github\.com/parsdao/'
+  # Container images
+  - 'ghcr\.io/luxfi/'
+  - 'ghcr\.io/hanzoai/'
+  - 'ghcr\.io/zooai/'
+  - 'ghcr\.io/parsdao/'
+  # npm registry URLs / scopes appearing in lock-file-adjacent comments
+  - 'registry\.npmjs\.org/@(luxfi|hanzoai|hanzo|zooai|parsdao)/'
+  # Go package import qualifier (e.g. `luxhsm "github.com/luxfi/hsm"`)
+  - '^\s*[A-Za-z_][A-Za-z0-9_]*\s+"github\.com/(luxfi|hanzoai|zooai|parsdao)/'
+  # TS/JS imports & requires from upstream OSS npm scopes
+  #   import ... from '@luxfi/foo'
+  #   import ... from "@hanzoai/foo"
+  #   require('@zooai/foo')
+  #   export ... from '@parsdao/foo'
+  - '\b(import|export|require)\b[^"'']*[''"]@(luxfi|hanzoai|hanzo|zooai|parsdao)/'
+  # Python imports from upstream OSS packages (rare, but possible)
+  - '^\s*(from|import)\s+(luxfi|hanzoai|hanzo|zooai|parsdao)(\.|\s)'

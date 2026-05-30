@@ -1,0 +1,32 @@
+name: Publish to npm
+
+# Fires on `v*` tag push. Publishes @luxfi/brand-rules to npmjs.org.
+# Uses the luxfi-org-level NPM_TOKEN secret (visibility: ALL).
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Install
+        run: npm install --ignore-scripts
+      - name: Publish
+        # --provenance requires the package to already exist on the registry
+        # with provenance enabled. Drop --provenance on first publish; flip
+        # back on subsequent versions.
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
